@@ -90,9 +90,9 @@ int main(int argc, char *argv[]) {
   menit = tstruct.tm_min;
   detik = tstruct.tm_sec;
   char *argcv[] = {"sh", argv[4], NULL};
-   if((jam==arr[1]||strcmp(argv[1],"*")==0)){
+   if((jam==arr[3]||strcmp(argv[3],"*")==0)){
        if(menit==arr[2]||strcmp(argv[2],"*")==0){
-             if(detik==arr[3]||strcmp(argv[3],"*")==0){
+             if(detik==arr[1]||strcmp(argv[1],"*")==0){
                 pid_t child_id;
                 child_id = fork();
                 if (child_id == 0){
@@ -101,6 +101,6 @@ int main(int argc, char *argv[]) {
              }
        }
    }
-   sleep(0);
+   sleep(1);
   }
 }
