@@ -199,3 +199,144 @@ d. Untuk setiap direktori yang dipindahkan ke “/home/[USER]/modul2/indomie/”
 Karena Jaya terlalu banyak tugas dia jadi stress, jadi bantulah Jaya agar bisa membuat
 
 >Source code file: [Soal3](https://github.com/hrswcksono/SoalShiftSISOP20_modul2_A02/blob/master/soal3/soal3.c)
+
+soal a
+
+```javascript
+if (child_id == 0) {
+    // this is child
+    char *argv[] = {"mkdir", "-p", "/home/kali/modul2/indomie", NULL};
+    execv("/bin/mkdir", argv);
+  } else {
+    // this is parent
+    while ((wait(&status)) > 0);
+    sleep(5);
+    chd1 = fork();
+    if (chd1 < 0) {
+      exit(EXIT_FAILURE);
+    }
+    if (chd1 == 0) {
+      char *argv[] = {"mkdir", "-p", "/home/kali/modul2/sedaap", NULL};
+      execv("/bin/mkdir", argv);
+    }
+```
+buat folder indomie dan sedaap
+
+soal b
+
+```javascript
+if (chd2 == 0) {
+      char *argv[] = {"unzip", "/home/kali/modul2/jpg.zip", "-d", "/home/kali/modul2/", NULL};
+      execv("/bin/unzip", argv);
+    }
+```
+yang kedua extract jpg.zip kemudian taruh di folder /home/[user]/modul2
+
+soal c
+
+```javascript
+if (chd3 == 0) {
+    struct dirent *de;
+    DIR *dr = opendir("/home/kali/modul2/jpg");
+    while ((de = readdir(dr)) != NULL){
+    if (de->d_type == DT_REG)
+    {
+      pid_t cid1;
+      cid1 = fork();
+      if (cid1 < 0) {
+         exit(EXIT_FAILURE);
+      }
+      if (cid1 == 0) {
+        char file[50] = {};
+        sprintf(file,"/home/kali/modul2/jpg/%s", de->d_name);
+        char *argv[] = {"mv", file, "/home/kali/modul2/sedaap", NULL};
+        execv("/bin/mv", argv);
+      }
+    }
+    else {
+      pid_t cid2;
+      cid2 = fork();
+      if (cid2 < 0) {
+         exit(EXIT_FAILURE);
+      }
+      if (cid2 == 0) {
+        char file[50] = {};
+        sprintf(file,"/home/kali/modul2/jpg/%s", de->d_name);
+        char *argv[] = {"mv", file, "/home/kali/modul2/indomie", NULL};
+        execv("/bin/mv", argv);
+      }
+    }
+   }
+   closedir(dr);
+   }
+```
+
+membuka direktori jpg dahulu dan selanjutnya di check apakah dalam folder tersebut isinya null atau tidak, 
+jika tidak maka check lagi apakah sama dengan file atau direktori
+jika direktori pindahkan ke indomie dan file ke folder seedap
+
+soal d
+
+```javascript
+else {
+   while ((wait(&status)) > 0);
+   sleep(1);
+   chd4 = fork();
+   if (chd4 < 0) {
+     exit(EXIT_FAILURE);
+   }
+   if (chd4 == 0) {
+    struct dirent *df;
+    DIR *dr = opendir("/home/kali/modul2/indomie");  
+    while ((df = readdir(dr)) != NULL){
+      char file[50];
+      sprintf(file, "/home/kali/modul2/indomie/%s/coba1.txt", df->d_name);
+      pid_t cid3;
+      cid3 = fork();
+      if (cid3 < 0) {
+         exit(EXIT_FAILURE);
+      }
+      if (cid3 == 0) {
+        char *argv[] = {"touch", file, NULL};
+        execv("/bin/touch", argv);
+      }
+   }
+   closedir(dr);
+   } else {
+   while ((wait(&status)) > 0);
+   sleep(3);
+   chd5 = fork();
+   if (chd5 < 0) {
+     exit(EXIT_FAILURE);
+   }
+   if (chd5 == 0) {
+    struct dirent *df;
+    DIR *dr = opendir("/home/kali/modul2/indomie");  
+    while ((df = readdir(dr)) != NULL){
+      char file[50];
+      sprintf(file, "/home/kali/modul2/indomie/%s/coba2.txt", df->d_name);
+      pid_t cid3;
+      cid3 = fork();
+      if (cid3 < 0) {
+         exit(EXIT_FAILURE);
+      }
+      if (cid3 == 0) {
+        char *argv[] = {"touch", file, NULL};
+        execv("/bin/touch", argv);
+      }
+   }
+   closedir(dr);
+   } else {
+   while ((wait(&status)) > 0);
+   sleep(1);
+   chd6 = fork();
+   if (chd6 < 0) {
+     exit(EXIT_FAILURE);
+   }
+   if (chd6 == 0) {
+        char *argv[] = {"rm", "/home/kali/modul2/indomie/coba2.txt", "/home/kali/modul2/indomie/coba1.txt", "/home/kali/modul2/coba1.txt", "/home/kali/modul2/coba2.txt", NULL};
+        execv("/bin/rm", argv);
+```
+
+yang pertama ditambahkan sleep(1) karena folder baru saja selesai di pindahkan, jika tidak di kasih sleep(1) maka coba1.txt hanya terdapat pada sebagian folder saja yang sudah di pindahkan
+lalu sleep(3) baru buat file coba2.txt, kemudian rm coba1.txt dan coba2.txt pada folder modul2 dan indomie
