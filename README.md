@@ -21,6 +21,8 @@ d. Program berjalan di background (daemon)
 
 e. Tidak boleh menggunakan fungsi system()
 
+>Source code file: [Soal1](https://github.com/hrswcksono/SoalShiftSISOP20_modul2_A02/blob/master/soal1/soal1.c)
+
 ```javascript
 #include <ctype.h>
 int digits_only(const char *s)
