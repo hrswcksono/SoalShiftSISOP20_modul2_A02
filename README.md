@@ -340,3 +340,10 @@ else {
 
 yang pertama ditambahkan sleep(1) karena folder baru saja selesai di pindahkan, jika tidak di kasih sleep(1) maka coba1.txt hanya terdapat pada sebagian folder saja yang sudah di pindahkan
 lalu sleep(3) baru buat file coba2.txt, kemudian rm coba1.txt dan coba2.txt pada folder modul2 dan indomie
+
+
+![pada folder seedap](https://github.com/hrswcksono/SoalShiftSISOP20_modul2_A02/blob/master/soal3/Screenshot_1.png)
+
+![pada folder indomie](https://github.com/hrswcksono/SoalShiftSISOP20_modul2_A02/blob/master/soal3/1.png)
+
+![pada salah satu folder di indomie](https://github.com/hrswcksono/SoalShiftSISOP20_modul2_A02/blob/master/soal3/Screenshot_3.png)
