@@ -352,3 +352,7 @@ pada folder indomie
 pada salah satu folder di indomie
 
 ![pada salah satu folder di indomie](https://github.com/hrswcksono/SoalShiftSISOP20_modul2_A02/blob/master/soal3/Screenshot_3.png)
+
+pada folder jpg terlihat kosong
+
+![pada salah satu folder di indomie](https://github.com/hrswcksono/SoalShiftSISOP20_modul2_A02/blob/master/soal3/Screenshot_2.png)
