@@ -43,15 +43,15 @@ int main(int argc, char *argv[]) {
       exit(EXIT_FAILURE);
   }
 
-  if(arr[1] > 59 && arr[1] < 0){
+  if(arr[1] > 59 || arr[1] < 0){
      exit(EXIT_FAILURE);
   }
 
-  if(arr[2] > 59 && arr[2] < 0){
+  if(arr[2] > 59 || arr[2] < 0){
      exit(EXIT_FAILURE);
   }
 
-  if(arr[3] > 23 && arr[3] < 0){
+  if(arr[3] > 23 || arr[3] < 0){
      exit(EXIT_FAILURE);
   }
 
