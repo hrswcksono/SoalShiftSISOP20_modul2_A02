@@ -11,13 +11,19 @@
 #include <stdio.h>
 #include <wait.h>
 
+void killer(char arr[]);
+
+void zip(char arr[]);
+
+void delet(char arr[]);
+
 void download();
 
-int main() {
+int main(int argc, char *argv[]) {
   pid_t pid, sid;        // Variabel untuk menyimpan PID
 
   pid = fork();     // Menyimpan PID dari Child Process
-  pid_t child_id;
+  pid_t child_id,cid1;
 
   if (pid < 0) {
     exit(EXIT_FAILURE);
@@ -30,6 +36,8 @@ int main() {
   }
 
   umask(0);
+
+  killer(argv[1]);
 
   sid = setsid();
   if (sid < 0) {
@@ -55,9 +63,9 @@ int main() {
 
     int status;
 
-    if (child_id < 0) 
+    if (child_id < 0){ 
       exit(EXIT_FAILURE);
-
+    }
     if (child_id == 0)
     { 
       if (fork() == 0)
@@ -67,6 +75,27 @@ int main() {
       }
       else 
       {
+        while ((wait(&status)) > 0);
+        for (int i = 1; i <= 20; i++)
+        {
+          if (fork() == 0)
+          {
+            chdir(buffer);
+            download();
+          }
+          sleep(5);
+        }
+       cid1 = fork();
+       if (cid1 <0){
+          exit(EXIT_FAILURE);
+       }
+       if (cid1 == 0){
+          zip(buffer);
+       }
+       else {
+        while ((wait(&status)) > 0);
+          delet(buffer);
+        }
        }
     }
     else{
@@ -88,4 +117,27 @@ void download(){
     sprintf(file,"https://picsum.photos/%d?random=1", a);
     char *argv[] = {"wget",file,"-qO" , buffer, NULL};
     execv("/bin/wget", argv);
+}
+
+void zip(char arr[]){
+    char file[50];
+    sprintf(file,"%s.zip",arr);
+    char *argv[] = {"zip","-r",file,arr,NULL}; 
+    execv("/bin/zip", argv);
+}
+
+void delet(char arr[]){
+    char *argv[] = {"rm", "-r", arr, NULL};
+    execv("/bin/rm", argv);
+}
+
+void killer(char arr[])
+{
+    FILE *kill;
+    kill = fopen("killer.sh", "w");
+    if(strcmp(arr, "-a")==0) 
+        fprintf(kill, "rm $0\n#!/bin/bash\nkill -9 -%d", getpid());
+    else if(strcmp(arr, "-b")==0)
+        fprintf(kill, "rm $0\n#!/bin/bash\nkill %d", getpid());
+    fclose(kill);
 }
