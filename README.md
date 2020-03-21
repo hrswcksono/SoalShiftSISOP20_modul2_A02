@@ -73,6 +73,117 @@ e. Kiwa menambahkan bahwa program utama bisa dirun dalam dua mode, yaitu MODE_A 
 
 >Source code file: [Soal2](https://github.com/hrswcksono/SoalShiftSISOP20_modul2_A02/blob/master/soal2/soal2.c)
 
+```while (1) {
+    char buffer[50];
+    struct tm * ptr_time;
+    time_t time_raw_format; 
+    time ( &time_raw_format );
+    ptr_time = localtime ( &time_raw_format );
+    strftime(buffer,50,"%Y-%m-%d_%T",ptr_time);
+    pid_t child_id;
+    child_id = fork();
+
+    int status;
+
+    if (child_id < 0){ 
+      exit(EXIT_FAILURE);
+    }
+    if (child_id == 0)
+    { 
+      if (fork() == 0)
+      {
+        char *argv[] = {"mkdir", "-p", buffer, NULL};
+        execv("/bin/mkdir", argv);
+      }
+      else 
+      {
+        while ((wait(&status)) > 0);
+        for (int i = 1; i <= 20; i++)
+        {
+          if (fork() == 0)
+          {
+            chdir(buffer);
+            download();
+          }
+          sleep(5);
+        }
+       cid1 = fork();
+       if (cid1 <0){
+          exit(EXIT_FAILURE);
+       }
+       if (cid1 == 0){
+          zip(buffer);
+       }
+       else {
+        while ((wait(&status)) > 0);
+          delet(buffer);
+        }
+       }
+    }
+    else{
+    sleep(30);
+     }  
+  }
+}
+```
+Program untuk membuat folder dengan format nama file yaitu waktu pada saat program di jalankan
+
+```
+void download(){
+    int a;
+    char file[50];
+    struct tm * ptr_time;
+    time_t time_raw_format; 
+    char buffer[50];
+    time ( &time_raw_format );
+    ptr_time = localtime ( &time_raw_format );
+    strftime(buffer,50,"%Y-%m-%d_%T",ptr_time);
+    a=((int)time(NULL)%1000) + 100;
+    sprintf(file,"https://picsum.photos/%d?random=1", a);
+    char *argv[] = {"wget",file,"-qO" , buffer, NULL};
+    execv("/bin/wget", argv);
+}
+```
+program untuk mendownload gambar dari link yang di sediakan dan mengubah format nama gambar yang telah di download menjadi waktu pada saat gambar tersebut telah di download
+
+```
+void zip(char arr[]){
+    char file[50];
+    sprintf(file,"%s.zip",arr);
+    char *argv[] = {"zip","-r",file,arr,NULL}; 
+    execv("/bin/zip", argv);
+}
+```
+program untuk mengubah folder menjadi bentuk zip
+
+```
+void delet(char arr[]){
+    char *argv[] = {"rm", "-r", arr, NULL};
+    execv("/bin/rm", argv);
+}
+```
+proses untuk menghapus folder yang telah di ubah menjadi zip
+
+```
+void killer(char arr[])
+{
+    FILE *kill;
+    kill = fopen("killer.sh", "w");
+    if(strcmp(arr, "-a")==0) 
+        fprintf(kill, "rm $0\n#!/bin/bash\nkill -9 -%d", getpid());
+    else if(strcmp(arr, "-b")==0)
+        fprintf(kill, "rm $0\n#!/bin/bash\nkill %d", getpid());
+    fclose(kill);
+}
+```
+Program untuk membuat program utama bisa dirun dalam dua mode, yaitu
+MODE_A dan MODE_B. Ketika dijalankan dalam MODE_A, program utama akan langsung
+menghentikan semua operasinya ketika program killer dijalankan. Untuk
+MODE_B, ketika program killer dijalankan, program utama akan berhenti tapi
+membiarkan proses di setiap folder yang masih berjalan sampai selesai(semua
+folder terisi gambar, terzip lalu di delete).
+
+
 ## Soal3
 
 Jaya adalah seorang programmer handal mahasiswa informatika. Suatu hari dia memperoleh tugas yang banyak dan berbeda tetapi harus dikerjakan secara bersamaan (multiprocessing).
