@@ -1,5 +1,8 @@
 # SoalShiftSISOP20_modul2_A02
 
+## Muhamad Haris Wicaksono (05111840000029)
+## Muhammad Rivadhli Purnomo (05111840000128)
+
 ## Soal1
 Buatlah program C yang menyerupai crontab untuk menjalankan script bash dengan ketentuan sebagai berikut:
 
